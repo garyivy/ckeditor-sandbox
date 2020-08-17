@@ -1,55 +1,91 @@
-import React from "react";
-import Editor from "./D3Editor";
+import React, { useEffect } from "react";
+import MultirootEditor from "./MultiRootEditor";
 import "./App.css";
 
 function App() {
-  const appData = {
-    // Users data.
-    users: [
+  useEffect(() => {
+    MultirootEditor.create(
       {
-        id: "user-1",
-        name: "Joe Doe",
-        // Note that the avatar is optional.
-        avatar: "https://randomuser.me/api/portraits/thumb/men/26.jpg",
+        header: document.querySelector("#header"),
+        content: document.querySelector("#content"),
+        footerleft: document.querySelector("#footer-left"),
+        footerright: document.querySelector("#footer-right"),
+        sidebar: document.querySelector("#sidebar"),
       },
       {
-        id: "user-2",
-        name: "Ella Harper",
-        avatar: "https://randomuser.me/api/portraits/thumb/women/65.jpg",
-      },
-    ],
+        placeholder: {
+          header: "Header text goes here",
+          content: "Type content here",
+          footerleft: "Left footer content",
+          footerright: "Right footer content",
+        },
+      }
+    )
+      .then((newEditor) => {
+        document
+          .querySelector("#toolbar")
+          .appendChild(newEditor.ui.view.toolbar.element);
 
-    // The ID of the current user.
-    userId: "user-1",
-
-    // Editor initial data.
-    initialData: `<h2>
-             <comment id="thread-1" type="start"></comment>
-             Bilingual Personality Disorder
-             <comment id="thread-1" type="end"></comment>
-         </h2>
-         <p>
-             This may be the first time you hear about this made-up disorder but it actually isn’t so far from the truth.
-             As recent studies show, the language you speak has more effects on you than you realise.
-             According to the studies, the language a person speaks affects their cognition,
-             behaviour, emotions and hence <strong>their personality</strong>.
-         </p>
-         <p>
-             This shouldn’t come as a surprise
-             <a href="https://en.wikipedia.org/wiki/Lateralization_of_brain_function">since we already know</a>
-             that different regions of the brain becomes more active depending on the activity.
-             Since structure, information and especially <strong>the culture</strong> of languages varies substantially
-             and the language a person speaks is a essential element of daily life.
-         </p>`,
-  };
+        window.editor = newEditor;
+      })
+      .catch((err) => {
+        console.error(err.stack);
+      });
+  }, []);
 
   return (
     <div className="App">
-      <Editor
-        users={appData.users}
-        currentUser={{ id: appData.userId }}
-        content={appData.initialData}
-      />
+      <div className="content-container">
+        <div id="toolbar" />
+        <header id="header">
+          <h2>Gone traveling</h2>
+          <h3>Monthly travel news and inspiration</h3>
+        </header>
+
+        <div id="content">
+          <h3>Destination of the Month</h3>
+
+          <h4>Valletta</h4>
+
+          <p>
+            The capital city of{" "}
+            <a
+              href="https://en.wikipedia.org/wiki/Malta"
+              // eslint-disable-next-line react/jsx-no-target-blank
+              target="_blank"
+              rel="external"
+            >
+              Malta
+            </a>{" "}
+            is the top destination this summer. It’s home to a cutting-edge
+            contemporary architecture, baroque masterpieces, delicious local
+            cuisine and at least 8 months of sun. It’s also a top destination
+            for filmmakers, so you can take a tour through locations familiar to
+            you from Game of Thrones, Gladiator, Troy and many more.
+          </p>
+        </div>
+
+        <div className="demo-row">
+          <div className="demo-row__half">
+            <div id="footer-left">
+              <h3>The three greatest things you learn from traveling</h3>
+              <p>
+                <button>Find out more</button>
+              </p>
+            </div>
+          </div>
+
+          <div className="demo-row__half">
+            <div id="footer-right">
+              <h3>Walking the capitals of Europe: Warsaw</h3>
+              <p>
+                <button href="#">Find out more</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="sidebar" />
     </div>
   );
 }

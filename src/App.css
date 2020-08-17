@@ -13,10 +13,40 @@
   max-width: 700px;
 }
 
-#sidebar {
-  /* Set some size for the sidebar (it can be any). */
-  min-width: 300px;
+.App {
+  background: darkgray;
+  display: flex;
+}
 
-  /* Add some distance. */
-  padding: 0 10px;
+.content-container {
+  max-width: 80%;
+}
+
+#sidebar {
+  background: purple;
+  position: relative;
+  width: 20%;
+}
+
+#content {
+  background: red;
+}
+
+#header {
+  background: yellow;
+}
+
+.demo-row {
+  display: flex;
+  justify-content: center;
+}
+
+#footer-left {
+  background: blue;
+  flex-grow: 1;
+}
+
+#footer-right {
+  background: green;
+  flex-grow: 1;
 }
