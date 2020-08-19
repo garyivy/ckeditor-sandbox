@@ -94,7 +94,7 @@ class MultirootEditor extends Editor {
    * @param {module:core/editor/editorconfig~EditorConfig} config The editor configuration.
    * @returns {Promise} A promise resolved once the editor is ready. The promise returns the created multi-root editor instance.
    */
-  static create(sourceElements, customConfig) {
+  static create(sourceElements, customConfig, sidebar) {
     class CommentsAdapter {
       constructor(editor) {
         this.editor = editor;
@@ -161,7 +161,8 @@ class MultirootEditor extends Editor {
 
     const config = {
       ...customConfig,
-      licenseKey: "c7CjCHxcAFFzChrLYIB2zj+3bV3ZuSUSQ1oflip2BDr8XBbWudoUQ6s=",
+      licenseKey:
+        "20ZeuBr7spjWzxHl2NW3ehNqTRrzb8pyGhsEjVeGlHRIgkbAa7FWTremqthRJPMBA84I5hNTZ5eQeFkT93A=",
       extraPlugins: [CommentsAdapter],
       plugins: [
         Paragraph,
@@ -207,7 +208,7 @@ class MultirootEditor extends Editor {
         contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
       },
       sidebar: {
-        container: sourceElements.sidebar,
+        container: sidebar,
       },
     };
 
@@ -218,10 +219,6 @@ class MultirootEditor extends Editor {
         editor
           .initPlugins()
           .then(() => editor.ui.init())
-          .then(() => {
-            const annotations = editor.plugins.get("Annotations");
-            annotations.switchTo("wideSidebar");
-          })
           .then(() => {
             const initialData = {};
 

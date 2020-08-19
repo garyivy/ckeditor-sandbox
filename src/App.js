@@ -1,41 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MultirootEditor from "./MultiRootEditor";
 import "./App.css";
 
 function App() {
-  useEffect(() => {
-    MultirootEditor.create(
-      {
-        header: document.querySelector("#header"),
-        content: document.querySelector("#content"),
-        footerleft: document.querySelector("#footer-left"),
-        footerright: document.querySelector("#footer-right"),
-        sidebar: document.querySelector("#sidebar"),
-      },
-      {
-        placeholder: {
-          header: "Header text goes here",
-          content: "Type content here",
-          footerleft: "Left footer content",
-          footerright: "Right footer content",
-        },
-      }
-    )
-      .then((newEditor) => {
-        document
-          .querySelector("#toolbar")
-          .appendChild(newEditor.ui.view.toolbar.element);
+  const [sidebar, setSidebar] = useState();
 
-        window.editor = newEditor;
-      })
-      .catch((err) => {
-        console.error(err.stack);
-      });
-  }, []);
+  useEffect(() => {
+    setSidebar(document.querySelector("#sidebar"));
+    if (sidebar) {
+      MultirootEditor.create(
+        {
+          header: document.querySelector("#header"),
+          content: document.querySelector("#content"),
+          footerleft: document.querySelector("#footer-left"),
+          footerright: document.querySelector("#footer-right"),
+        },
+        {
+          placeholder: {
+            header: "Header text goes here",
+            content: "Type content here",
+            footerleft: "Left footer content",
+            footerright: "Right footer content",
+          },
+        },
+        sidebar
+      )
+        .then((newEditor) => {
+          document
+            .querySelector("#toolbar")
+            .appendChild(newEditor.ui.view.toolbar.element);
+          window.editor = newEditor;
+        })
+        .catch((err) => {
+          console.error(err.stack);
+        });
+    }
+  }, [sidebar]);
 
   return (
     <div className="App">
-      <div className="content-container">
+      <div id="container">
         <div id="toolbar" />
         <header id="header">
           <h2>Gone traveling</h2>
